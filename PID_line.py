@@ -14,7 +14,7 @@ class RobotController:
         self.left_motor = Motor(Port.A)
         self.right_motor = Motor(Port.D)
         self.robot = DriveBase(self.left_motor, self.right_motor, wheel_diameter, axle_track)
-        self.line_sensor = AnalogSensor(Port.S3)
+        self.line_sensor = LightSensor(Port.S4)
         self.speed = -50
         self.robot.settings(straight_speed=self.speed)
 
@@ -26,7 +26,7 @@ class RobotController:
 
 
     def follow_line(self):
-        target = 3900
+        target = 8
         error = 0
         integral = 0
         kp = 0.1
@@ -34,7 +34,7 @@ class RobotController:
         kd = 0
         directions = ['left', 'right', 'straight']
         while True:
-            value = self.line_sensor.voltage()
+            value = self.line_sensor.reflection()
             self.ev3.screen.print(value, sep=' ', end='\n')
 
             error_old = error
