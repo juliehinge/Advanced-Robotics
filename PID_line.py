@@ -25,14 +25,13 @@ class RobotController:
   
 
 
-    def follow_line(self):
+    def follow_line(self, directions: list):
         target = 8
         error = 0
         integral = 0
         kp = 0.1
         ki = 0
         kd = 0
-        directions = ['left', 'right', 'straight']
         while True:
             value = self.line_sensor.reflection()
             self.ev3.screen.print(value, sep=' ', end='\n')
@@ -69,6 +68,8 @@ class RobotController:
 
 
 robot_controller = RobotController(wheel_diameter=81, axle_track=160)
+directions = []
+with open('sokoban_robot_solution.txt', 'r') as file:
+    directions = [line.rstrip() for line in file]
 
-# Follow the line indefinitely
-robot_controller.follow_line()
+robot_controller.follow_line(directions)

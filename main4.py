@@ -138,6 +138,66 @@ def sokoban_solver_bfs(initial_board):
 
     return None
 
+def translate_for_robot(sol):
+    angle = 0
+    moves = []
+    for move in sol:
+        if angle == 0:
+            if move == 'Up':
+                angle = 0
+                moves.append('straight')
+            elif move == 'Right':
+                angle = 90
+                moves.append('right')
+            elif move == 'Down':
+                angle = 0
+                moves.append('reverse')
+            elif move == 'Left':
+                angle = 270
+                moves.append('left')
+
+        elif angle == 90:
+            if move == 'Up':
+                angle = 0
+                moves.append('left')
+            elif move == 'Right':
+                angle = 90
+                moves.append('straight')
+            elif move == 'Down':
+                angle = 180
+                moves.append('right')
+            elif move == 'Left':
+                angle = 90
+                moves.append('reverse')
+
+        elif angle == 180:
+            if move == 'Up':
+                angle = 180
+                moves.append('reverse')
+            elif move == 'Right':
+                angle = 90
+                moves.append('left')
+            elif move == 'Down':
+                angle = 180
+                moves.append('straight')
+            elif move == 'Left':
+                angle = 270
+                moves.append('right')
+
+        elif angle == 270:
+            if move == 'Up':
+                angle = 0
+                moves.append('right')
+            elif move == 'Right':
+                angle = 270
+                moves.append('reverse')
+            elif move == 'Down':
+                angle = 180
+                moves.append('left')
+            elif move == 'Left':
+                angle = 270
+                moves.append('straight')
+    return moves
 
 
 # Sample game board
@@ -151,66 +211,52 @@ game_board = [
     ['#', '#', '#', '#', '#', '#', '#']
 ]
 
+## Robot grid set up
+# '@'=start pos, '.'=target, '$'=crate, '*'=crate in target
+game_board_1 = [
+    ['#', '#', '#', '#', '#', '#'],
+    ['#', ' ', ' ', ' ', ' ', '#'],
+    ['#', ' ', ' ', '.', ' ', '#'],
+    ['#', ' ', '$', '@', ' ', '#'],
+    ['#', ' ', ' ', ' ', ' ', '#'],
+    ['#', '#', '#', '#', '#', '#']
+]
+
+game_board_2 = [
+    ['#', '#', '#', '#', '#', '#'],
+    ['#', ' ', ' ', ' ', ' ', '#'],
+    ['#', ' ', ' ', ' ', ' ', '#'],
+    ['#', '.', '$', '@', ' ', '#'],
+    ['#', ' ', ' ', ' ', ' ', '#'],
+    ['#', '#', '#', '#', '#', '#']
+]
+
 # Solve the game
-solution = sokoban_solver_bfs(game_board)
+solution = sokoban_solver_bfs(game_board_1)
 
 if solution:
     move = direction_to_string(solution.pop(0))
 
-    # if angle == 0:
-    #     if move == 'Up'
-    #         # Go forward
-    #     if move == 'Down'
-    #         # Go backwards
-    #     if move == 'Left'
-    #         # Go left
-    #     if move == 'Right'
-    #         # Go right
-    # if angle == 90:
-    #     if move == 'Up'
-    #         # Go left
-    #     if move == 'Down'
-    #         # Go right
-    #     if move == 'Left'
-    #         # Go backwards
-    #     if move == 'Right'
-    #         # Go forward
-    # if angle == 180:  
-    #     if move == 'Up':
-    #         # Go backwards
-    #     if move == 'Down'
-    #         # Go forward
-    #     if move == 'Left'
-    #         # Go right
-    #     if move == 'Right'
-    #         # Go left
-    # if angle == 270:
-    #     if move == 'Up':
-    #         # Go right
-    #     if move == 'Down':
-    #         # Go left
-    #     if move == 'Left':
-    #         # Go forward
-    #     if move == 'Right':
-    #         # Go backwards
-
-
-
-
     print("Solved! Moves:", [direction_to_string(move) for move in solution])
 
     directions = [direction_to_string(move) for move in solution]
+    robot_directions = translate_for_robot(directions)
+    print("Robot Moves:", robot_directions)
     # Specify the file path where the directions will be saved
-    file_path = 'sokoban_solution.txt'
+    file_path = 'sokoban_robot_solution.txt'
 
+    # Write the directions to a text file
+    with open(file_path, 'w') as file:
+        for direction in robot_directions:
+            file.write(direction + '\n')  # Write each direction followed by a newline
+
+    file_path = 'sokoban_solution.txt'
     # Write the directions to a text file
     with open(file_path, 'w') as file:
         for direction in directions:
             file.write(direction + '\n')  # Write each direction followed by a newline
 
     print(f"Directions have been written to {file_path}")
-
-
     
 else:
     print("Unsolvable")
