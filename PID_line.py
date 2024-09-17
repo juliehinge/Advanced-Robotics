@@ -57,13 +57,19 @@ class RobotController:
                 direction = directions.pop(0)
 
                 if direction == 'left':
+                    self.robot.settings(straight_speed=self.speed)
                     self.robot.turn(90)
 
                 if direction == 'right':
+                    self.robot.settings(straight_speed=self.speed)
                     self.robot.turn(-90)
 
                 if direction == 'straight':
+                    self.robot.settings(straight_speed=self.speed)
                     self.robot.straight(-10)
+                
+                if direction == 'reverse':
+                    self.robot.settings(straight_speed=-self.speed)
 
 
 
