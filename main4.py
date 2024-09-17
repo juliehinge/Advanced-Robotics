@@ -98,6 +98,7 @@ def direction_to_string(direction):
         return "Left"
     elif direction == (0, 1):
         return "Right"
+        
 
 def print_state(state):
     for i in state:
@@ -164,22 +165,6 @@ game_board1 = [
 solution = sokoban_solver_bfs(game_board1)
 
 if solution:
-
-game_board_2 = [
-    ['#', '#', '#', '#', '#', '#'],
-    ['#', ' ', ' ', ' ', ' ', '#'],
-    ['#', ' ', ' ', ' ', ' ', '#'],
-    ['#', '.', '$', '@', ' ', '#'],
-    ['#', ' ', ' ', ' ', ' ', '#'],
-    ['#', '#', '#', '#', '#', '#']
-]
-
-# Solve the game
-solution = sokoban_solver_bfs(game_board_1)
-
-if solution:
-    move = direction_to_string(solution.pop(0))
-
     print("Solved! Moves:", [direction_to_string(move) for move in solution])
 else:
     print("Unsolvable")
