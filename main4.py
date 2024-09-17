@@ -98,8 +98,68 @@ def direction_to_string(direction):
         return "Left"
     elif direction == (0, 1):
         return "Right"
-        
 
+def translate_for_robot(sol):
+    angle = 0
+    moves = []
+    for move in sol:
+        if angle == 0:
+            if move == 'Up':
+                angle = 0
+                moves.append('straight')
+            elif move == 'Right':
+                angle = 90
+                moves.append('right')
+            elif move == 'Down':
+                angle = 0
+                moves.append('reverse')
+            elif move == 'Left':
+                angle = 270
+                moves.append('left')
+
+        elif angle == 90:
+            if move == 'Up':
+                angle = 0
+                moves.append('left')
+            elif move == 'Right':
+                angle = 90
+                moves.append('straight')
+            elif move == 'Down':
+                angle = 180
+                moves.append('right')
+            elif move == 'Left':
+                angle = 90
+                moves.append('reverse')
+
+        elif angle == 180:
+            if move == 'Up':
+                angle = 180
+                moves.append('reverse')
+            elif move == 'Right':
+                angle = 90
+                moves.append('left')
+            elif move == 'Down':
+                angle = 180
+                moves.append('straight')
+            elif move == 'Left':
+                angle = 270
+                moves.append('right')
+
+        elif angle == 270:
+            if move == 'Up':
+                angle = 0
+                moves.append('right')
+            elif move == 'Right':
+                angle = 270
+                moves.append('reverse')
+            elif move == 'Down':
+                angle = 180
+                moves.append('left')
+            elif move == 'Left':
+                angle = 270
+                moves.append('straight')
+    return moves
+        
 def print_state(state):
     for i in state:
         print(i)
@@ -166,5 +226,21 @@ solution = sokoban_solver_bfs(game_board1)
 
 if solution:
     print("Solved! Moves:", [direction_to_string(move) for move in solution])
+
+    directions = [direction_to_string(move) for move in solution]
+    robot_directions = translate_for_robot(directions)
+    print("Robot Moves:", robot_directions)
+
+    # Write the robot directions to a text file
+    file_path = 'sokoban_robot_solution.txt'
+    with open(file_path, 'w') as file:
+        for direction in robot_directions:
+            file.write(direction + '\n')  # Write each direction followed by a newline
+
+    # Write the map directions to a text file
+    file_path = 'sokoban_solution.txt'
+    with open(file_path, 'w') as file:
+        for direction in directions:
+            file.write(direction + '\n')  # Write each direction followed by a newline
 else:
     print("Unsolvable")
