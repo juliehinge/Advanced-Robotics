@@ -151,52 +151,19 @@ game_board = [
     ['#', '#', '#', '#', '#', '#', '#']
 ]
 
+game_board1 = [
+    ['#', '#', '#', '#', '#', '#'],
+    ['#', ' ', ' ', ' ', ' ', '#'],
+    ['#', ' ', ' ', '.', ' ', '#'],
+    ['#', ' ', '$', '@', ' ', '#'],
+    ['#', ' ', ' ', ' ', ' ', '#'],
+    ['#', '#', '#', '#', '#', '#']
+]
+
 # Solve the game
-solution = sokoban_solver_bfs(game_board)
+solution = sokoban_solver_bfs(game_board1)
 
 if solution:
-    move = direction_to_string(solution.pop(0))
-
-    if angle == 0:
-        if move == 'Up'
-            # Go forward
-        if move == 'Down'
-            # Go backwards
-        if move == 'Left'
-            # Go left
-        if move == 'Right'
-            # Go right
-    if angle == 90:
-        if move == 'Up'
-            # Go left
-        if move == 'Down'
-            # Go right
-        if move == 'Left'
-            # Go backwards
-        if move == 'Right'
-            # Go forward
-    if angle == 180:  
-        if move == 'Up'
-            # Go backwards
-        if move == 'Down'
-            # Go forward
-        if move == 'Left'
-            # Go right
-        if move == 'Right'
-            # Go left
-    if angle == 270:
-        if move == 'Up'
-            # Go right
-        if move == 'Down'
-            # Go left
-        if move == 'Left'
-            # Go forward
-        if move == 'Right'
-            # Go backwards
-
-
-
-
     print("Solved! Moves:", [direction_to_string(move) for move in solution])
 else:
     print("Unsolvable")
